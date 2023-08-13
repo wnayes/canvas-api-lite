@@ -43,20 +43,42 @@ function createTestResultCanvas(
   return canvas;
 }
 
+function imageDataEqual(
+  firstData: ImageDataLike,
+  secondData: ImageDataLike
+): boolean {
+  for (let i = 0; i < firstData.data.length; ++i) {
+    if (firstData.data[i] !== secondData.data[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+
 (async () => {
   for (const testCase of TestCases) {
     const testRowDiv = document.createElement("div");
     testRowDiv.classList.add("testCaseDiv");
 
+    let firstData: ImageDataLike;
+    let secondData: ImageDataLike;
+
     Promise.resolve(testCase.execute(NativeContext))
       .then((imageDataNative) => {
+        firstData = imageDataNative;
         testRowDiv.appendChild(createTestResultCanvas(imageDataNative));
       })
       .then(() =>
         Promise.resolve(testCase.execute(LibContext)).then((imageDataLib) => {
+          secondData = imageDataLib;
           testRowDiv.appendChild(createTestResultCanvas(imageDataLib));
         })
-      );
+      )
+      .then(() => {
+        if (!imageDataEqual(firstData, secondData)) {
+          testRowDiv.classList.add("testCaseDivFailed");
+        }
+      });
 
     container.append(testRowDiv);
   }
