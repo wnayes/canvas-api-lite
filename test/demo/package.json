@@ -1,0 +1,13 @@
+{
+  "name": "canvas-api-lite-demo",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Test page demostrating canvas-api-lite",
+  "main": "index.js",
+  "scripts": {
+    "build": "esbuild index.ts --bundle --format=iife --outfile=demo.js"
+  },
+  "devDependencies": {
+    "esbuild": "^0.18.15"
+  }
+}
