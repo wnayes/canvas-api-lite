@@ -481,25 +481,26 @@ export class CanvasRenderingContext2D {
           const ab = alphaBase / 255;
           const as = alpha / 255;
 
-          canvasData.data[rowIndex] = simpleAlphaComposite(
-            canvasData.data[rowIndex],
-            color[0],
-            ab,
-            as
-          );
-          canvasData.data[rowIndex + 1] = simpleAlphaComposite(
-            canvasData.data[rowIndex + 1],
-            color[1],
-            ab,
-            as
-          );
-          canvasData.data[rowIndex + 2] = simpleAlphaComposite(
-            canvasData.data[rowIndex + 2],
-            color[2],
-            ab,
-            as
-          );
-          canvasData.data[rowIndex + 3] = (as + ab * (1 - as)) * 255;
+          const ao = as + ab * (1 - as);
+
+          canvasData.data[rowIndex] =
+            simpleAlphaComposite(canvasData.data[rowIndex], color[0], ab, as) /
+            ao;
+          canvasData.data[rowIndex + 1] =
+            simpleAlphaComposite(
+              canvasData.data[rowIndex + 1],
+              color[1],
+              ab,
+              as
+            ) / ao;
+          canvasData.data[rowIndex + 2] =
+            simpleAlphaComposite(
+              canvasData.data[rowIndex + 2],
+              color[2],
+              ab,
+              as
+            ) / ao;
+          canvasData.data[rowIndex + 3] = ao * 255;
           rowIndex += 4;
         } else {
           rowIndex += 4;
@@ -878,25 +879,15 @@ function copyImageData(
           const ab = dest.data[destRowIndex + 3] / 255;
           const as = a / 255;
 
-          dest.data[destRowIndex] = simpleAlphaComposite(
-            dest.data[destRowIndex],
-            r,
-            ab,
-            as
-          );
-          dest.data[destRowIndex + 1] = simpleAlphaComposite(
-            dest.data[destRowIndex + 1],
-            g,
-            ab,
-            as
-          );
-          dest.data[destRowIndex + 2] = simpleAlphaComposite(
-            dest.data[destRowIndex + 2],
-            b,
-            ab,
-            as
-          );
-          dest.data[destRowIndex + 3] = (as + ab * (1 - as)) * 255;
+          const ao = as + ab * (1 - as);
+
+          dest.data[destRowIndex] =
+            simpleAlphaComposite(dest.data[destRowIndex], r, ab, as) / ao;
+          dest.data[destRowIndex + 1] =
+            simpleAlphaComposite(dest.data[destRowIndex + 1], g, ab, as) / ao;
+          dest.data[destRowIndex + 2] =
+            simpleAlphaComposite(dest.data[destRowIndex + 2], b, ab, as) / ao;
+          dest.data[destRowIndex + 3] = ao * 255;
           destRowIndex += 4;
         } else {
           destRowIndex += 4;

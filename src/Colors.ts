@@ -87,7 +87,7 @@ export function CSSColorStringToRGBAArray(value: string): RGBAArray {
           parseInt(match[1], 10),
           parseInt(match[2], 10),
           parseInt(match[3], 10),
-          Math.round(parseFloat(match[4]) * 255),
+          parseFloat(match[4]) * 255,
         ];
       }
     } else {
