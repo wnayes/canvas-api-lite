@@ -463,48 +463,17 @@ export class CanvasRenderingContext2D {
 
       let rowIndex = topLeftX + y * canvasWidth;
       for (let x = topLeftX; x < topLeftX + fillWidth; x += 4) {
-        if (x < 0 || x >= canvasWidth) {
-          continue;
+        if (x >= 0 && x < canvasWidth) {
+          applyWithAlphaComposition(
+            canvasData.data,
+            rowIndex,
+            color[0],
+            color[1],
+            color[2],
+            color[3]
+          );
         }
-
-        const alpha = color[3];
-        const alphaBase = canvasData.data[rowIndex + 3];
-        if (alpha === 255 || alphaBase === 0) {
-          // No transparency
-          canvasData.data[rowIndex++] = color[0];
-          canvasData.data[rowIndex++] = color[1];
-          canvasData.data[rowIndex++] = color[2];
-          canvasData.data[rowIndex++] = alpha;
-        } else if (alpha > 0) {
-          // Alpha composition.
-          // https://drafts.fxtf.org/compositing/#simplealphacompositing
-          const ab = alphaBase / 255;
-          const as = alpha / 255;
-
-          const ao = as + ab * (1 - as);
-
-          canvasData.data[rowIndex] =
-            simpleAlphaComposite(canvasData.data[rowIndex], color[0], ab, as) /
-            ao;
-          canvasData.data[rowIndex + 1] =
-            simpleAlphaComposite(
-              canvasData.data[rowIndex + 1],
-              color[1],
-              ab,
-              as
-            ) / ao;
-          canvasData.data[rowIndex + 2] =
-            simpleAlphaComposite(
-              canvasData.data[rowIndex + 2],
-              color[2],
-              ab,
-              as
-            ) / ao;
-          canvasData.data[rowIndex + 3] = ao * 255;
-          rowIndex += 4;
-        } else {
-          rowIndex += 4;
-        }
+        rowIndex += 4;
       }
     }
   }
@@ -867,36 +836,44 @@ function copyImageData(
         dxLive >= 0 &&
         dxLive < destDataWidth
       ) {
-        if (a === 255) {
-          // No transparency
-          dest.data[destRowIndex++] = r;
-          dest.data[destRowIndex++] = g;
-          dest.data[destRowIndex++] = b;
-          dest.data[destRowIndex++] = a;
-        } else if (a > 0) {
-          // Alpha composition.
-          // https://drafts.fxtf.org/compositing/#simplealphacompositing
-          const ab = dest.data[destRowIndex + 3] / 255;
-          const as = a / 255;
-
-          const ao = as + ab * (1 - as);
-
-          dest.data[destRowIndex] =
-            simpleAlphaComposite(dest.data[destRowIndex], r, ab, as) / ao;
-          dest.data[destRowIndex + 1] =
-            simpleAlphaComposite(dest.data[destRowIndex + 1], g, ab, as) / ao;
-          dest.data[destRowIndex + 2] =
-            simpleAlphaComposite(dest.data[destRowIndex + 2], b, ab, as) / ao;
-          dest.data[destRowIndex + 3] = ao * 255;
-          destRowIndex += 4;
-        } else {
-          destRowIndex += 4;
-        }
-      } else {
-        destRowIndex += 4;
+        applyWithAlphaComposition(dest.data, destRowIndex, r, g, b, a);
       }
+      destRowIndex += 4;
     }
   }
+}
+
+function applyWithAlphaComposition(
+  dest: Uint8ClampedArray,
+  destIndex: number,
+  r: number,
+  g: number,
+  b: number,
+  a: number
+): void {
+  const alphaBase = dest[destIndex + 3];
+  if (a === 255 || alphaBase === 0) {
+    // No transparency
+    dest[destIndex] = r;
+    dest[destIndex + 1] = g;
+    dest[destIndex + 2] = b;
+    dest[destIndex + 3] = a;
+  } else if (a > 0) {
+    // Alpha composition.
+    // https://drafts.fxtf.org/compositing/#simplealphacompositing
+    const ab = alphaBase / 255;
+    const as = a / 255;
+
+    const ao = as + ab * (1 - as);
+
+    dest[destIndex] = simpleAlphaComposite(dest[destIndex], r, ab, as) / ao;
+    dest[destIndex + 1] =
+      simpleAlphaComposite(dest[destIndex + 1], g, ab, as) / ao;
+    dest[destIndex + 2] =
+      simpleAlphaComposite(dest[destIndex + 2], b, ab, as) / ao;
+    dest[destIndex + 3] = ao * 255;
+  }
+  // else source has 0 alpha, no change.
 }
 
 function simpleAlphaComposite(
