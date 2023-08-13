@@ -43,27 +43,40 @@ function createTestResultCanvas(
   return canvas;
 }
 
-function imageDataEqual(
+function validateImageData(
   firstData: ImageDataLike,
   secondData: ImageDataLike
 ): boolean {
+  let equal = true;
   for (let i = 0; i < firstData.data.length; ++i) {
     if (firstData.data[i] !== secondData.data[i]) {
-      return false;
+      equal = false;
+
+      const pi = i - (i % 4);
+      console.error(
+        `[${firstData.data[pi]},${firstData.data[pi + 1]},${
+          firstData.data[pi + 2]
+        },${firstData.data[pi + 3]}] !== [${secondData.data[pi]},${
+          secondData.data[pi + 1]
+        },${secondData.data[pi + 2]},${secondData.data[pi + 3]}]`
+      );
+      i = pi + 4;
     }
   }
-  return true;
+  return equal;
 }
 
 (async () => {
   for (const testCase of TestCases) {
+    console.group(testCase.name);
+
     const testRowDiv = document.createElement("div");
     testRowDiv.classList.add("testCaseDiv");
 
     let firstData: ImageDataLike;
     let secondData: ImageDataLike;
 
-    Promise.resolve(testCase.execute(NativeContext))
+    await Promise.resolve(testCase.execute(NativeContext))
       .then((imageDataNative) => {
         firstData = imageDataNative;
         testRowDiv.appendChild(createTestResultCanvas(imageDataNative));
@@ -75,11 +88,13 @@ function imageDataEqual(
         })
       )
       .then(() => {
-        if (!imageDataEqual(firstData, secondData)) {
+        if (!validateImageData(firstData, secondData)) {
           testRowDiv.classList.add("testCaseDivFailed");
         }
       });
 
     container.append(testRowDiv);
+
+    console.groupEnd();
   }
 })();
