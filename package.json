@@ -2,7 +2,8 @@
   "name": "canvas-api-lite",
   "version": "1.0.0",
   "description": "An implementation of the Canvas API for use in non-browser contexts like Node.js.",
-  "main": "index.js",
+  "main": "./dist/index.js",
+  "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc -p tsconfig.json",
