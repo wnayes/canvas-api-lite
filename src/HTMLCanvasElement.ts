@@ -20,8 +20,8 @@ export class HTMLCanvasElement {
   private __data!: ImageData;
 
   public constructor(width?: number, height?: number) {
-    this._height = width ?? DefaultHeight;
-    this._width = height ?? DefaultWidth;
+    this._height = height ?? DefaultHeight;
+    this._width = width ?? DefaultWidth;
     this.__createData();
   }
 
@@ -32,7 +32,7 @@ export class HTMLCanvasElement {
 
   /** @internal */
   private __createData(): void {
-    this.__data = new ImageData(this._height, this._width);
+    this.__data = new ImageData(this._width, this._height);
   }
 
   get height(): number {
