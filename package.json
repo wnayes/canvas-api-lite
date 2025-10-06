@@ -15,7 +15,7 @@
     "@types/color-name": "^1.1.1",
     "@types/upng-js": "^2.1.2",
     "typescript": "^5.9.3",
-    "vitest": "^0.34.1"
+    "vitest": "^3.2.4"
   },
   "dependencies": {
     "color-name": "^2.0.0",
