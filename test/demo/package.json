@@ -8,6 +8,6 @@
     "build": "esbuild index.ts --bundle --format=iife --outfile=demo.js"
   },
   "devDependencies": {
-    "esbuild": "^0.18.15"
+    "esbuild": "^0.25.10"
   }
 }
