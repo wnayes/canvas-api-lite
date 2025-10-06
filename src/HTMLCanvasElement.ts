@@ -109,7 +109,7 @@ export class HTMLCanvasElement {
     }
 
     const pngArrayBuffer = encode(
-      this.__data.data.buffer,
+      this.__data.data.buffer as ArrayBuffer,
       this._width,
       this._height
     );

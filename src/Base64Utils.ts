@@ -5,7 +5,7 @@ export function encodeArrayBufferToBase64(buffer: ArrayBuffer): string {
 }
 
 export function decodeBase64ToArrayBuffer(str: string): ArrayBuffer {
-  return base64.parse(str).buffer;
+  return base64.parse(str).buffer as ArrayBuffer;
 }
 
 // From: https://gist.github.com/LittleSaya/2c7622e8e8cc49998460444eb8eab6df#file-base64arraybuffer-ts
