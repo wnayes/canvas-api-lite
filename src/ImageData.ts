@@ -4,9 +4,11 @@ interface ImageDataSettings {
   colorSpace?: PredefinedColorSpace;
 }
 
+export type ImageDataArray = Uint8ClampedArray<ArrayBuffer>;
+
 export class ImageData {
   /** @internal RGBA data */
-  private __data: Uint8ClampedArray;
+  private __data: ImageDataArray;
   /** @internal */
   private _width: number;
   /** @internal */
@@ -19,25 +21,21 @@ export class ImageData {
     height: number,
     settings: ImageDataSettings
   );
-  public constructor(
-    dataArray: Uint8ClampedArray,
-    width: number,
-    height: number
-  );
+  public constructor(dataArray: ImageDataArray, width: number, height: number);
   /** @internal */
   public constructor(
-    dataArray: Uint8ClampedArray,
+    dataArray: ImageDataArray,
     width: number,
     height: number,
     settings: ImageDataSettings
   );
   public constructor(
-    arg1: Uint8ClampedArray | number,
+    arg1: ImageDataArray | number,
     arg2?: number,
     arg3?: number | ImageDataSettings,
     arg4?: ImageDataSettings
   ) {
-    let dataArray: Uint8ClampedArray;
+    let dataArray: ImageDataArray;
     let width: number;
     let height: number;
 
@@ -79,12 +77,12 @@ export class ImageData {
     this._height = height;
   }
 
-  public get data(): Uint8ClampedArray {
+  public get data(): ImageDataArray {
     return this.__data;
   }
 
   /** @internal */
-  public set _data(value: Uint8ClampedArray) {
+  public set _data(value: ImageDataArray) {
     this.__data = value;
   }
 

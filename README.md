@@ -60,6 +60,7 @@ This module exports the following types with implemented features as noted.
     - `settings` argument not supported.
     - Both `width` and `height` must be passed. (Does not infer `height` from `width` and data array size.)
   - `data` getter property
+    - A `ImageDataArray` type alias for `Uint8ClampedArray<ArrayBuffer>` is provided for this.
   - `width` getter property
   - `height` getter property
   - `colorSpace` getter property
