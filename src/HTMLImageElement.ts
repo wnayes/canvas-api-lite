@@ -16,10 +16,15 @@ export class Image {
 }
 
 export class HTMLImageElement {
+  /** @internal */
   private _src: string | undefined;
+  /** @internal */
   private _loadHandlers: (EventHandler | null)[] = [];
+  /** @internal */
   private _onloadHandler: EventHandler | undefined;
+  /** @internal */
   private _errorHandlers: EventHandler[] = [];
+  /** @internal */
   private __data: ImageData | undefined;
 
   /** @internal */
@@ -121,6 +126,7 @@ export class HTMLImageElement {
     }
   }
 
+  /** @internal */
   private _raiseLoad(): void {
     this._loadHandlers.forEach((callback) => {
       if (callback === null) {
@@ -134,6 +140,7 @@ export class HTMLImageElement {
     });
   }
 
+  /** @internal */
   private _raiseError(): void {
     this._errorHandlers.forEach((callback) => {
       callback(new Event("error"));
