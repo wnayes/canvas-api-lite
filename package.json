@@ -1,6 +1,6 @@
 {
   "name": "canvas-api-lite",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "An implementation of the Canvas API for use in non-browser contexts like Node.js.",
   "main": "./dist/index.js",
   "exports": "./dist/index.js",
