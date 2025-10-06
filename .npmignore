@@ -1,5 +1,5 @@
-src/
-test/
-dist/test/
-index.ts
-tsconfig.json
+/src/
+/test/
+/dist/test/
+/index.ts
+/tsconfig.json
