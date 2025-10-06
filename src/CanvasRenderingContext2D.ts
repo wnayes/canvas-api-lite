@@ -210,13 +210,13 @@ export class CanvasRenderingContext2D {
     throwNotImplemented();
   }
 
-  createImageData(
+  public createImageData(
     width: number,
     height: number,
     settings?: ImageDataSettings | undefined
   ): ImageData;
-  createImageData(imagedata: ImageData): ImageData;
-  createImageData(
+  public createImageData(imagedata: ImageData): ImageData;
+  public createImageData(
     arg1: unknown,
     arg2?: unknown,
     settings?: unknown
@@ -247,7 +247,7 @@ export class CanvasRenderingContext2D {
     return new ImageData(newWidth, newHeight);
   }
 
-  getImageData(
+  public getImageData(
     sx: number,
     sy: number,
     sw: number,
@@ -285,8 +285,8 @@ export class CanvasRenderingContext2D {
     return imageData;
   }
 
-  putImageData(imagedata: ImageData, dx: number, dy: number): void;
-  putImageData(
+  public putImageData(imagedata: ImageData, dx: number, dy: number): void;
+  public putImageData(
     imagedata: ImageData,
     dx: number,
     dy: number,
@@ -295,7 +295,7 @@ export class CanvasRenderingContext2D {
     dirtyWidth: number,
     dirtyHeight: number
   ): void;
-  putImageData(
+  public putImageData(
     imagedata: ImageData,
     dx: number,
     dy: number,
@@ -338,15 +338,15 @@ export class CanvasRenderingContext2D {
     );
   }
 
-  drawImage(image: CanvasImageSource, dx: number, dy: number): void;
-  drawImage(
+  public drawImage(image: CanvasImageSource, dx: number, dy: number): void;
+  public drawImage(
     image: CanvasImageSource,
     dx: number,
     dy: number,
     dw: number,
     dh: number
   ): void;
-  drawImage(
+  public drawImage(
     image: CanvasImageSource,
     sx: number,
     sy: number,
@@ -357,7 +357,7 @@ export class CanvasRenderingContext2D {
     dw: number,
     dh: number
   ): void;
-  drawImage(
+  public drawImage(
     image: CanvasImageSource,
     sx: number,
     sy: number,
@@ -430,11 +430,11 @@ export class CanvasRenderingContext2D {
     );
   }
 
-  clearRect(x: number, y: number, w: number, h: number): void {
+  public clearRect(x: number, y: number, w: number, h: number): void {
     this._fillRect(x, y, w, h, TransparentRGBAArray);
   }
 
-  fillRect(x: number, y: number, w: number, h: number): void {
+  public fillRect(x: number, y: number, w: number, h: number): void {
     this._fillRect(x, y, w, h, this._styleState.fillStyle);
   }
 
