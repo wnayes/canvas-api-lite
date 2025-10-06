@@ -9,11 +9,23 @@ interface EventHandler {
   (event: Event): void;
 }
 
-export class Image {
-  public constructor(width?: number, height?: number) {
+// This would be ideal to use, but (see TypeScript #27594) constructors can't
+// have a return type annotation.
+// export class Image {
+//   public constructor(width?: number, height?: number): HTMLImageElement {
+//     return new HTMLImageElement(width, height);
+//   }
+// }
+
+interface ImageConstructor {
+  new (width?: number, height?: number): HTMLImageElement;
+}
+
+export const Image: ImageConstructor = class ImageImpl {
+  constructor(width?: number, height?: number) {
     return new HTMLImageElement(width, height);
   }
-}
+} as any;
 
 export class HTMLImageElement {
   /** @internal */
